@@ -7,6 +7,9 @@ from news_scraper import fetch_headlines_round_robin, FEEDS
 from nlp_analysis import classify_signals
 from codex_insights import infer_beneficiaries, simulate_scenarios
 from multi_predict import predict_labels
+import os
+SAFE_MODE = os.getenv("SAFE_MODE", "0") == "1"
+DEFAULT_COUNT = int(os.getenv("DEFAULT_ARTICLES", 20 if SAFE_MODE else 30))
 
 
 # -----------------------------
@@ -20,13 +23,17 @@ st.markdown(
 )
 
 with st.sidebar:
-    user_selected_count = st.slider("Number of articles", 5, 200, 30)
+   user_selected_count = st.slider("Number of articles", 5, 200, DEFAULT_COUNT)
     per_feed_cap = st.number_input("Per-feed cap (per source fetch)", min_value=10, max_value=500, value=100, step=10)
     dedupe = st.checkbox("Dedupe similar titles", value=True)
     st.markdown("---")
     min_sources = st.slider("Trending threshold (# distinct sources)", 2, 5, 3)
     show_auto_trends = st.checkbox("Auto-entity trends (spaCy)", value=False)
 
+run = st.button("▶️ Run analysis")
+if not run:
+    st.info("Adjust settings in the sidebar and click **Run analysis**.")
+    st.stop()
 
 # -----------------------------
 # Fetch
