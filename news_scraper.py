@@ -9,7 +9,7 @@ log = logging.getLogger(__name__)
 # ===== Default feeds (edit or add more as you like) =====
 FEEDS: List[str] = [
     "https://www.aljazeera.com/xml/rss/all.xml",            # Al Jazeera
-    "https://rss.cnn.com/rss/edition_world.rss",            # CNN World
+    # "https://rss.cnn.com/rss/edition_world.rss",            # CNN World
     "http://feeds.bbci.co.uk/news/world/rss.xml",           # BBC World
     "https://rss.nytimes.com/services/xml/rss/nyt/World.xml",  # NYT World
     "https://www.rt.com/rss/news/",                         # Russian news (RT)
@@ -103,3 +103,4 @@ if __name__ == "__main__":
     items = fetch_headlines_round_robin(total_limit=12)
     for i, h in enumerate(items, 1):
         print(f"{i:02d}. [{h['source']}] {h['title']}\n    {h['link']}\n")
+
