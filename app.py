@@ -23,17 +23,22 @@ st.markdown(
 )
 
 with st.sidebar:
-   user_selected_count = st.slider("Number of articles", 5, 200, DEFAULT_COUNT)
+    user_selected_count = st.slider("Number of articles", 5, 200, DEFAULT_COUNT)
     per_feed_cap = st.number_input("Per-feed cap (per source fetch)", min_value=10, max_value=500, value=100, step=10)
     dedupe = st.checkbox("Dedupe similar titles", value=True)
     st.markdown("---")
     min_sources = st.slider("Trending threshold (# distinct sources)", 2, 5, 3)
     show_auto_trends = st.checkbox("Auto-entity trends (spaCy)", value=False)
 
+if "run" not in st.session_state:
+    st.session_state.run = False
+
 run = st.button("▶️ Run analysis")
-if not run:
+st.session_state.run = st.session_state.run or run
+if not st.session_state.run:
     st.info("Adjust settings in the sidebar and click **Run analysis**.")
     st.stop()
+
 
 # -----------------------------
 # Fetch
